@@ -461,6 +461,9 @@ describe_scheduled_actions(Configuration, ServiceNamespace) when is_binary(Servi
 describe_scheduled_actions(Configuration, BodyConfiguration) ->
     case request_with_action(Configuration, BodyConfiguration, "AnyScaleFrontendService.DescribeScheduledActions") of
         {ok, Result} ->
+		                lager:notice("Random Try, let's do it, "),
+            lager:notice("~p", [Result]),
+
             ScheduledActions = proplists:get_value(<<"ScheduledActions">>, Result),
             PropRes = [extract_scheduled_action(Extracted) || Extracted <- ScheduledActions],
             NextToken = proplists:get_value(<<"NextToken">>, Result, undefined),
