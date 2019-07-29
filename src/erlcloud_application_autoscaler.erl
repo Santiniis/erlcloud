@@ -4,6 +4,8 @@
 -include("erlcloud_as.hrl").
 -include("erlcloud_xmerl.hrl").
 
+-compile([{parse_transform, lager_transform}]).
+
 %% ------------------------------------------------------------------
 %% AWS Application Autoscaling Function Exports
 %% ------------------------------------------------------------------
@@ -460,6 +462,7 @@ describe_scheduled_actions(Configuration, ServiceNamespace) when is_binary(Servi
     describe_scheduled_actions(Configuration, [{<<"ServiceNamespace">>, ServiceNamespace}]);
 describe_scheduled_actions(Configuration, BodyConfiguration) ->
     Res = request_with_action(Configuration, BodyConfiguration, "AnyScaleFrontendService.DescribeScheduledActions"),
+    lager:notice("Res: ~p", [Res]),
     case Res  of
         {ok, Result} ->
             ScheduledActions = proplists:get_value(<<"ScheduledActions">>, Result),
